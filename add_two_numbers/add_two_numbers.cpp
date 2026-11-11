@@ -28,74 +28,54 @@ void print_list(ListNode* head){
 
  class Solution {
     public:
-        int get_number(ListNode* l1){
-            ListNode* curr = l1;
-            int num = 0;
-            int multiplier = 1;
-            while (curr != nullptr) {
-                int digit = (curr->val) * multiplier;
-                num += digit;
-                multiplier *= 10;
-                curr = curr->next;
-            }
-            return num;
-        }
-
-    public:
-        ListNode* get_list(string num) {
-
-            int len_str = num.size();
-
-            vector<ListNode*> arr(len_str);
-
-            int i = len_str - 1;
-            while (i >= 0) {
-                int digit = num[i] - '0';
-                ListNode* node = new ListNode(digit);
-                arr[i] = node;
-                i -= 1;
-            }
-
-            i = len_str - 1;
-            while (i > 0) {
-                arr[i]->next = arr[i - 1];
-                i -= 1;
-            }
-    
-            return arr[len_str - 1];
-        }
-            
-    public:
         ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-            int num1 = get_number(l1);
-            int num2 = get_number(l2);
-            cout << num1 << "\n";
-            cout << num2 << "\n";
+            ListNode* added_list = new ListNode(0);
+            ListNode* current = added_list;
+            int multiple = 0;
 
-            int num3 = num1 + num2;
+            while (l1 != nullptr || l2 != nullptr || multiple != 0){
 
-            cout << num3 << "\n";
-            string num_str = to_string(num3);
-            return get_list(num_str);
+                int l1_num = (l1 == nullptr) ? 0 : l1->val;
+                int l2_num = (l2 == nullptr) ? 0 : l2->val;
+
+                int init_sum = l1_num + l2_num + multiple;
+                int remainder = init_sum % 10;
+                multiple = init_sum / 10;
+
+
+                current->next = new ListNode(remainder);
+                current = current->next;
+
+                if (l1 != nullptr) l1 = l1->next;
+                if (l2 != nullptr) l2 = l2->next;
+            }
+
+            return added_list->next;
         }
     };
+    
     int main() {
 
-        ListNode* l1 = new ListNode(3);
-        ListNode* l2 = new ListNode(4, l1);
-        ListNode* l3 = new ListNode(2, l2);
-        // [2, 4, 3]
+        ListNode* l1 = new ListNode(9);
+        ListNode* l2 = new ListNode(9, l1);
+        ListNode* l3 = new ListNode(9, l2);
+        ListNode* l4 = new ListNode(9, l3);
+        ListNode* l5 = new ListNode(9, l4);
+        ListNode* l6 = new ListNode(9, l5);
+        ListNode* l7 = new ListNode(9, l6);
+        ListNode* l8 = new ListNode(9, l7);
+        ListNode* l9 = new ListNode(9, l8);
+        ListNode* l10 = new ListNode(1, l9);
+        // [1,9,9,9,9,9,9,9,9,9]
     
-        ListNode* l4 = new ListNode(4);
-        ListNode* l5 = new ListNode(6, l4);
-        ListNode* l6 = new ListNode(5, l5);
-        // [5, 6, 4]
+        ListNode* l11 = new ListNode(9);
+        // [9]
     
-        print_list(l3);
-        print_list(l6);
+        print_list(l10);
+        print_list(l11);
     
         Solution solution;
-        ListNode* ans = solution.addTwoNumbers(l3, l6);
+        ListNode* ans = solution.addTwoNumbers(l10, l11);
     
         print_list(ans);
     

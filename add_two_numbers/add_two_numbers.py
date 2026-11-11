@@ -13,42 +13,28 @@ def print_list(head):
 
     print("None")
 class Solution:
-    def get_number(self, l1: ListNode | None) -> int:
-        curr = l1
-        num = 0
-        i = 0
-        while curr != None:
-            digit = (curr.val) * (10 ** i)
-            num += digit
-            i += 1
-            curr = curr.next
-        return num
-
-    def get_list(self, num : str) -> ListNode | None:
-        len_str = len(num)
-
-        arr = [ListNode()] * len_str
-        i = len_str - 1
-        while i >= 0:
-            node = ListNode(int(num[i]))
-            arr[i] = node
-            i -= 1
-
-        i = len_str - 1
-        while i > 0:
-            arr[i].next = arr[i - 1]
-            i -= 1
-
-        return arr[-1]
-
     def addTwoNumbers(self, l1: ListNode | None, l2: ListNode | None) -> ListNode | None:
-        
-        num1 = self.get_number(l1)
-        num2 = self.get_number(l2)
+        added_list = ListNode(0)
+        current = added_list
+        multiple = 0
 
-        num3 = num1 + num2
+        while (l1 is not None or l2 is not None or multiple != 0):
+            l1_num = 0 if l1 is None else l1.val
+            l2_num = 0 if l2 is None else l2.val
 
-        return self.get_list(str(num3))
+            init_sum = l1_num + l2_num + multiple
+            remainder = init_sum % 10
+            multiple = init_sum // 10
+
+            current.next = ListNode(remainder)
+            current = current.next
+
+            if l1 is not None:
+                l1 = l1.next
+
+            if l2 is not None:
+                l2 = l2.next
+        return added_list.next
 
 l1 = ListNode(3)
 l2 = ListNode(4, l1)
